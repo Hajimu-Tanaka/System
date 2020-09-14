@@ -1,0 +1,136 @@
+############################################################
+# docker
+############################################################
+
+/* 公式ダウンロードページ */
+https:#hub.docker.com/editions/community/docker-ce-desktop-mac
+
+
+###########################
+# dockerの仕組み
+###########################
+
+#Dockerの用途
+・開発を共有化する作業
+・複数のOSでの動作チェック
+・バージョン管理システム
+・本番環境での利用(レシピサイト「クックパッド」など)
+
+#Dockerイメージの取得
+・DockerコンテナはDockerイメージから稼働している
+
+
+
+###########################
+# docker-compose.ymlとは？
+###########################
+
+#docker-compose.ymlの書き方について解説してみた
+https://qiita.com/yuta-ushijima/items/d3d98177e1b28f736f04
+
+
+アプリケーションを動かすための処理を記述しているファイル
+公式サイトではComposeFileと呼ばれている
+
+--
+version: '2'                                                //docker-composeで使用するバージョン
+services:                                                   //アプリケーションを動かすための各要素
+  db:
+    image: mysql
+  web:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/myapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+--
+
+
+############################################################
+# dockerイメージ 操作コマンド Todo
+############################################################
+
+# イメージの一覧確認
+docker images
+
+# Docker Hubでイメージの検索
+docker search [NAME]
+
+# Docker Hubでイメージのダウンロード
+docker pull [NAME]:[TAG]
+
+# イメージの削除（ID指定）
+docker rmi [IMAGE_ID]
+
+# イメージの削除（コンテナ未使用分を一括で）
+  # ver1.13以降
+  docker image prune
+  # ver1.12以前
+  docker rmi $(docker images -q)
+
+# イメージの作成
+docker build -t [IMAGE_NAME]:[TAG] [Dockerfile_PATH]
+
+# イメージの名前とタグ設定
+docker tag [IMAGE_ID] [NAME]:[TAG]
+
+
+
+############################################################
+# dockerコンテナ 操作コマンド Todo
+############################################################
+
+#【入門】Dockerとは？使い方と基本コマンドを分かりやすく解説します
+https:#www.kagoya.jp/howto/rentalserver/docker/
+
+#Dockerのコマンドでよく使うものまとめ (おすすめ)
+https:#designsupply-web.com/media/knowledgeside/3325/
+
+#Dockerコンテナの作成、起動〜停止まで
+https:#qiita.com/kooohei/items/0e788a2ce8c30f9dba53
+
+
+###########################
+# 操作コマンド
+###########################
+
+# コンテナの一覧確認（全てのコンテナ）
+docker ps -a
+
+# コンテナの一覧確認（起動中のコンテナのみ）
+docker ps
+
+# コンテナの起動
+docker start [CONTAINER_ID]
+
+# コンテナの停止
+docker stop [CONTAINER_ID]
+
+# コンテナの一括停止
+docker kill $(docker ps -a -q)
+
+# コンテナを作成して起動
+docker run [IMAGE]
+
+# コンテナを作成して起動からログインしてbashで操作（フォアグラウンドで実行）
+docker run -i -t [IMAGE] /bin/bash
+
+# コンテナを作成して起動からログインしてbashで操作（バックグラウンドで実行）
+docker run -i -t -d [IMAGE] /bin/bash
+
+# コンテナへログインしてbashで操作（起動中のコンテナのみ）
+docker exec -i -t [CONTAINER_ID] bash
+
+# コンテナの削除 ※あらかじめ停止しておくこと
+docker rm [CONTAINER_ID]
+
+# コンテナの削除（全てのコンテナ） ※あらかじめ停止しておくこと
+docker rm $(docker ps -a -q)
+
+############################################################
+# その他 Todo
+############################################################
+

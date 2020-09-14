@@ -1,0 +1,89 @@
+@import "variables";				/* 別で定義したファイルをインポート */
+
+/**
+	mixinは定義を関数化してまとめたもの
+	複数の要素に同じ定義を設定する場合、mixinにまとめておくことでコードを簡素化できる
+	また引数を利用することで、同じ定義だが違うリテラル分を変更することが可能
+ */
+@mixin card($color) {
+
+  	padding: 40px 28px;
+	margin: 16px 8px;
+	display: inline-block;
+	border-radius: 3px;
+	background-color: $color;
+
+	/* 対象要素の中のimg */
+	img {
+		margin: 16px auto 20px;
+		display: block;
+	}
+
+	/* 対象要素の中のa */
+	a {
+	  padding: 16px 32px;
+		background-color: #ffffff;
+		border-radius: 26px;
+		display: inline-block;
+		color: $color;
+
+		/* a:hover */
+		&:hover {
+			color: #ffffff;
+			background-color: darken($color, 10%);
+		}
+	}
+	
+	h4 {
+	  color: darken($color, 20%);
+	}
+}
+
+body {   
+  min-width: 700px;
+	text-align: center;
+	font-family: "Hiragino Kaku Gothic ProN";
+	background-color: #f0f5fc;
+}
+
+header {
+	width: 100%;
+	padding: 10px 0;
+	display: inline-block;
+	background-color: #7579a3;
+	color: #ffffff;
+	font-size: 14px;
+	text-align: center;
+}
+
+.profile {
+	padding: 56px 0;
+	margin: 0 auto 32px;
+	background-color: #ffffff;
+	.info {
+		margin-top: 16px;
+		p {
+			color: #2b546a;
+		}
+	}
+}
+
+.html {
+  @include card($html);			//mixinの定義 (includeで展開、色の引数だけ渡して差異を作る )
+}
+
+.javascript {
+  @include card($javascript);	//mixinの定義
+}
+
+.ruby {
+  @include card($ruby);			//mixinの定義
+}
+
+
+footer {
+	margin: 100px 0 32px;
+	color: #2b546a;
+	font-size: 14px;
+	text-align: center;
+}

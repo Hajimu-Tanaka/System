@@ -1,0 +1,36 @@
+※20200914 いろいろと疲れるのでまた日を改めて実施。
+
+
+############################################################
+# Oracle docker　Todo
+############################################################
+
+#[Oracle Database] 公式Docker Imageを利用してOracle Database 19c環境を構築してみた　（メイン）
+https://itedge.stars.ne.jp/docker_image_oracle_database_19c/
+
+#DockerでOracle Databaseを使う
+https://qiita.com/gorilla0513/items/f22e8cce4e08da031abe
+
+
+
+
+############################################################
+# 手順・ログ　Todo
+############################################################
+
+# 1.Oracle Cloud上でコンピュートインスタンスを準備（今回不要）
+
+# 2.Oracle/docker-images の準備
+
+git clone https://github.com/marcelo-ochoa/docker-images.git
+
+# 3.Oracle Database 19cインストールバイナリの準備
+
+https://www.oracle.com/jp/database/technologies/oracle-database-software-download.html
+
+Oracle Database 19c (19.3)　Linux x86-64
+LINUX.X64_193000_db_home.zip
+
+
+# 4.Docker Imageを利用した19c環境構築
+# 5.Oracle DB接続確認

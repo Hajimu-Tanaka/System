@@ -1,0 +1,95 @@
+############################################################
+# Oracle Docker ホスト側の使い方 Todo
+############################################################
+
+###########################
+# Oracle Docker導入
+###########################
+
+関連：20200913_01_docker_oracle_install
+
+一度入れ直しあり
+
+
+###########################
+#　ホスト側 Linuxコマンド
+###########################
+
+# コンテナの起動
+docker start oracle
+
+#Oracleコンテナへログインしてbashで操作（起動中のコンテナのみ）
+docker exec -it oracle bash
+
+# ログアウト（デタッチ）する
+  (※「exit」「control + d」と入れるとコンテナも停止するので注意)
+control + p → control + q
+
+# コンテナの停止
+docker stop oracle
+
+
+# コンテナの削除 ※あらかじめ停止しておくこと
+docker rm e9469e4360b8
+
+# イメージの削除 ※あらかじめ停止しておくこと
+docker rmi 0ca6e45beb8c
+
+#コンテナをビルドしたときのログを表示 (コンテナビルド時の自動設定パスワード確認)
+docker logs oracle
+
+
+###########################
+# SQL PLUS（ホスト側）
+###########################
+
+以下にsqlplusのExeファイルが存在する
+/Users/tanakahajimu/workspace/Oracle/instantclient_12_2
+
+#直接起動する場合
+/Users/tanakahajimu/workspace/Oracle/instantclient_12_2/sqlplus /nolog
+./sqlplus /nolog
+
+conn SYSTEM/Oracle12@localhost:1521/ORCLCDB
+conn SYS/Oracle12@localhost:1521/ORCLCDB
+
+
+############################################################
+# Oracle Docker コンテナ側の使い方 Todo
+############################################################
+
+###########################
+# SQL PLUS(コンテナ側)
+###########################
+
+# sqlplusログイン
+sqlplus SYSTEM/Oracle12@ORCLCDB             -- ORCLCDBは、デフォルトのデータベース
+sqlplus SYS/Oracle12@ORCLCDB as SYSDBA
+
+
+#アイドルインスタンスに接続 (ORACLE_SIDを要確認：ORCLCDB) -- 関連：20200914_02_oracle_docker_instance_restart
+sqlplus / as SYSDBA
+
+###########################
+#　コンテナ側 Linuxコマンド
+###########################
+
+#Dockerでパスワード設定変更すするために、Homeのパスワード設定shellを使う
+bash setPassword.sh [引数1]
+bash setPassword.sh Oracle12
+
+https://qiita.com/poruki1010/items/3777035097c069c59656
+→sysとsystemユーザーのパスワードの再設定方法について
+
+
+############################################################
+# メモ　Todo
+############################################################
+
+docker ps
+--
+    tanakahajimu@tanakahajimenoMacBook-Air Business % docker ps
+    CONTAINER ID        IMAGE                         COMMAND                  CREATED             STATUS                 PORTS                                            NAMES
+    2ef701c8f97f        oracle/database:12.2.0.1-ee   "/bin/sh -c 'exec $O…"   4 hours ago         Up 4 hours (healthy)   0.0.0.0:1521->1521/tcp, 0.0.0.0:5500->5500/tcp   oracle
+    tanakahajimu@tanakahajimenoMacBook-Air Business %
+--

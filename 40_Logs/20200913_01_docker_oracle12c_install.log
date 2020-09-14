@@ -1,0 +1,124 @@
+############################################################
+# Oracle docker　Todo
+############################################################
+
+###### DockerでOracle Databaseを使う
+https://qiita.com/gorilla0513/items/f22e8cce4e08da031abe
+
+----------
+
+#######1.公式リポジトリをgit clone
+git clone https://github.com/oracle/docker-images.git
+
+
+#######2.公式からOracle Database本体をダウンロードする
+Oracle Database 12c Release 2 Linux x86-64をダウンロード
+
+
+#######3.イメージをビルドするのに、本体ファイルをdockerfilesに配置。
+cd docker-images/OracleDatabase/SingleInstance/dockerfiles/12.2.0.1
+cp /Users/tanakahajimu/workspace/Oracle/linuxx64_12201_database.zip .
+
+
+#######4. ビルド
+cd ..
+./buildDockerImage.sh -v 12.2.0.1 -e -i
+
+以下の表示が出たのであれば成功
+
+ Oracle Database Docker Image for 'ee' version 12.2.0.1 is ready to be extended:
+
+    --> oracle/database:12.2.0.1-ee
+
+ Build completed in 1221 seconds.
+
+
+#######5.データ永続化用ディレクトリ
+永続化するためのマウントディレクトリを作成
+
+mkdir ./oradata
+chmod 777 ./oradata
+
+#######6. yamlファイルを作成
+vi docker-compose.yaml
+
+--
+    version: '2'
+    services:
+      db:
+        image: oracle/database:12.2.0.1-ee
+        container_name: oracle
+        ports:
+          - 1521:1521
+          - 5500:5500
+        volumes:
+          - ./oradata:/opt/oracle/oradata
+        environment:
+          - ORACLE_PWD=Oracle12
+          - ORACLE_PDB=oracle
+--
+
+
+#######7. コンテナ作成
+docker-compose up -d
+--
+
+    Creating network "dockerfiles_default" with the default driver
+    Creating oracle ... done
+
+--
+
+docker logs -f oracle
+
+--
+最初にこれが出てくる
+    ORACLE PASSWORD FOR SYS, SYSTEM AND PDBADMIN: Oracle12
+
+
+
+これが出ているのでOK
+    #########################
+    DATABASE IS READY TO USE!
+    #########################
+
+    ※※※※ 注意点
+    途中でPowerShellを入れようとしたときに、PHPStrormが落ちる。
+    このアプリとは別のプロセスだろうが、とりあえず放置しておくことに。
+    もし途中で何か不具合があれば入れ直しが必要となると思う。
+
+--
+
+####### 8. 接続テスト
+
+----
+    tanakahajimu@tanakahajimenoMacBook-Air dockerfiles % docker ps
+    CONTAINER ID        IMAGE                         COMMAND                  CREATED             STATUS                    PORTS                                            NAMES
+    ba482a093455        oracle/database:12.2.0.1-ee   "/bin/sh -c 'exec $O…"   28 minutes ago      Up 28 minutes (healthy)   0.0.0.0:1521->1521/tcp, 0.0.0.0:5500->5500/tcp   oracle
+    tanakahajimu@tanakahajimenoMacBook-Air dockerfiles % docker exec -it oracle bash
+    [oracle@ba482a093455 ~]$
+    [oracle@ba482a093455 ~]$
+    [oracle@ba482a093455 ~]$ sqlplus SYSTEM/Oracle12@ORCLCDB
+
+    SQL*Plus: Release 12.2.0.1.0 Production on Sun Sep 13 14:54:45 2020
+
+    Copyright (c) 1982, 2016, Oracle.  All rights reserved.
+
+
+    Connected to:
+    Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+
+    SQL>
+    SQL>
+----
+
+
+####### 9. imageのexportしておく
+docker export --output="oracle12.2.0.1-ee" oracle
+
+-----
+
+    /Users/tanakahajimu/workspace/Oracle/docker-images/OracleDatabase/SingleInstance/dockerfiles
+    -rw-------   1 tanakahajimu  staff  6053978624 Sep 14 00:28 oracle12.2.0.1-ee
+    ※これがバックアップ
+
+-----
