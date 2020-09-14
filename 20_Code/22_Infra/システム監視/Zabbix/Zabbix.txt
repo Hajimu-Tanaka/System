@@ -1,0 +1,7 @@
+
+
+#ITインフラ監視入門～Zabbixインストール編～ – 「クラウド時代だから必要なITインフラ基礎知識」(5)
+https://knowledge.sakura.ad.jp/12446/
+
+#ITインフラ監視入門～Zabbix活用編～ – 「クラウド時代だから必要なITインフラ基礎知識」(6)
+https://knowledge.sakura.ad.jp/13655/

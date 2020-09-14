@@ -1,0 +1,23 @@
+################
+※おそらくlaravel6.0以上で発生するようで、けっきょく解決できなかった。
+Illuminate\Contracts\Container\BindingResolutionException
+Target class [TaskController] does not exist.
+
+Illuminate\Container\Container::build
+vendor/laravel/framework/src/Illuminate/Container/Container.php:811
+
+解決策
+https://qiita.com/kawa_matsu/items/607ccb742235ea04bf0c
+・composer dump-autoload
+・php artisan config:clear
+
+
+################
+Call to a member function toSql() on null in Psy Shell code on line 1
+    https://php1st.com/2025
+
+クラスメソッドを実行して「Call to a member function」と表示されるときは
+オブジェクト作成前に実行していたり、
+必要なオブジェクトインスタンスが生成されていないことが考えられます。
+
+################

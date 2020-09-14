@@ -1,0 +1,45 @@
+###################################
+# AWS接続・ログイン Todo
+###################################
+#!/bin/
+
+#SSH接続
+cd ~/.ssh
+ssh -i pemファイル ec2-user@IPアドレス
+
+ssh -l <ユーザーID> IPアドレス
+
+#AWS rootユーザーへ変更
+sudo -i
+
+#ログインのタイムアウトを防ぐ
+unset TMOUT
+
+###################################
+# AWS サービス起動・確認・停止 Todo
+###################################
+
+#サービス起動・確認・停止
+systemctl start mariadb
+systemctl status mariadb
+systemctl stop mariadb
+systemctl restart mariadb
+
+systemctl start nginx
+systemctl status nginx
+systemctl stop nginx
+systemctl restart nginx
+
+#コマンド履歴
+history -d 番号
+
+####################################
+# mysql(maria_db) Todo
+####################################
+
+#EC2内 mysql(mariaDB)への接続方法(passはなし)
+mysql -h localhost -P 3306 -u root -p
+
+#RDS mysql(mariaDB)への接続方法(passはいつもの)
+mysql -h [RDSのエンドポイント] -P 3306 -u root -p
+

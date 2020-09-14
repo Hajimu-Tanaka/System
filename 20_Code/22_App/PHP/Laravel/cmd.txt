@@ -1,0 +1,129 @@
+#####################################
+# WAF（Web アプリケーションフレームワーク）　Todo
+#####################################
+※以下の流れを常に頭に入れておく
+
+１、HTTPリクエスト
+２、ルーティング
+３、ミドルウェア
+４、コントローラ
+５、ORM
+６、モデルを介したDB接続
+７、コントローラ
+８、テンプレートエンジン
+９、HTML
+１０、HTTPレスポンス
+
+#####################################
+#laravelの作成手順 Todo
+#####################################
+
+#laravel 6.0ぐらいから仕様が大幅に変わっている形跡あり。
+#慣れるまではlaravel5.xで作成したほうがいい。
+composer create-project laravel/laravel laravel_todo
+composer create-project "laravel/laravel=6.0.*" todos
+
+・プロジェクト作成
+・ルーティング（web.php）にURLと処理を追加
+・コントローラを作成：php artisan make:controller TaskController
+・コントローラにルーティングで設定したメソッドを作る
+・テーブルの定義（マイグレーションファイル）を作成する (php artisan make:migration create_folders_table --create=folders)
+・テーブルを作成：php artisan migrate
+・モデル（データの入れ物を作る）：php artisan make:model Folder
+・テストデータを定義する：php artisan make:seeder FoldersTableSeeder
+・テストデータを挿入する：
+    composer dump-autoload
+    php artisan db:seed --class=FoldersTableSeeder
+
+
+#####################################
+#Valet:ローカル PC で動作する簡易Webサーバ Todo
+#https://www.hypertextcandy.com/laravel-local-environment-valet
+#####################################
+
+#Park（ディレクトリごとの管理）
+・cd ~/Projects/laravel-app
+・valet park
+→　http://laravel_todo.test
+→　http://laravel_todo.test/folders/1/tasks/
+
+#secure コマンドを使えばアプリケーションを HTTPS で配信する
+・valet secure todos　有効化
+・valet unsecure todos　無効化
+→　https://todos.test
+→　https://todos.test/folders/1/tasks/
+
+#link 特定のディレクトリで配信する
+・valet link todos
+→ http://127.0.0.1:8000/folders/1/tasks/
+
+サイトをネットに公開する
+→デモとか行う時に便利。
+
+
+#Nginxのエラーログ
+tail /usr/local/var/log/nginx/error.log
+
+tail -f -n 20 storage/logs/laravel.log
+
+
+#####################################
+#Laravelコマンド Todo
+#####################################
+
+php artisan serve
+
+#ルーティング確認
+php artisan route:list
+
+#コントローラークラスの作成
+php artisan make:controller TaskController
+
+#マイグレーションファイルの作成
+php artisan make:migration create_folders_table --create=folders
+
+#マイグレーションの実行
+php artisan migrate
+
+#すべて削除してマイグレーションを実行し直す
+php artisan migrate:fresh
+
+#モデルクラスの作成
+php artisan make:model Folder
+
+#テストデータを挿入するシーダーを作成
+php artisan make:seeder FoldersTableSeeder
+
+#コマンドラインからシーダーを実行(※以下の順番で実行)
+composer dump-autoload
+php artisan db:seed --class=UsersTableSeeder
+php artisan db:seed --class=FoldersTableSeeder
+php artisan db:seed --class=TasksTableSeeder
+
+#バリデーション(FormRequest クラス)を作成する
+php artisan make:request CreateFolder
+
+#View Blade テンプレートエンジン作成
+mkdir resources/views/tasks
+touch resources/views/tasks/index.blade.php
+
+
+
+#テストデータの確認
+php artisan tinker
+
+#テストケースの作成
+php artisan make:test TaskTest
+
+#テストケースの実行
+./vendor/bin/phpunit ./tests/Feature/TaskTest.php --testdox
+
+
+laravel6.*より認証系を利用する上で必要な操作
+・composer require laravel/ui （必要に応じて、composer.lockを削除し、先にcomposer install）
+・php artisan ui vue --auth
+
+
+設定ファイルのキャッシュをリセットしたらViewファイルを認識(設定ファイルを変更したら必ず行うこと)
+https://qiita.com/Ping/items/10ada8d069e13d729701
+php artisan config:cache

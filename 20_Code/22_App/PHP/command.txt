@@ -1,0 +1,6 @@
+
+#PHP
+php -v
+
+#Composer
+composer -V

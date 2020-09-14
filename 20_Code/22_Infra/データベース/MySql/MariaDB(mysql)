@@ -1,0 +1,32 @@
+####################################
+# MariaDB（ローカル作業）
+# https://qiita.com/yuichi1992_west/items/5f3718ab6e4c92c8b238
+# https://ryotatake.hatenablog.com/entry/2019/11/12/access_denied_for_user_rootlocalhost
+####################################
+
+#MariaDBに接続
+#権限の問題でいか方法で。（パスはいつもの）
+sudo mysql -u root
+
+#MariaDBのデータベースを作成
+create database taskdb;
+show databases;
+
+#ローカルでのサービス起動
+mysql.server stop 停止
+mysql.server start　起動
+mysql.server restart　再起動
+
+#サービス起動確認
+ps -wf | grep mysql
+
+＃rootパスワードの変更などが可能（今は何もしてない）
+mysql_secure_installation
+
+#Laravelで使用するMariaDBのユーザーを作成する。(今回はtest)
+create user 'test'@'localhost' identified by 'test';
+grant all on *.* to 'test'@'localhost';
+grant all privileges on *.* to test@"%" identified by 'test' with grant option; #外部すべてからアクセス可能
+
+#終了
+exit

@@ -1,0 +1,26 @@
+
+###################################
+# Python関連 Todo
+###################################
+
+#python3 バージョン
+python3 -V
+  Python 3.7.6
+
+#venvを作成する
+python3 -m venv [ディレクトリ名]
+
+#強制的に削除
+rm -rf [ディレクトリ]
+
+#venvアクティベート
+source bin/activate
+source venv/bin/activate
+
+#venvディアクティベート
+deactivate
+
+#pythonコンソール起動
+python
+
+

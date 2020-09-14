@@ -1,0 +1,71 @@
+###################################
+# Djangoの機能
+###################################
+
+#__init__.py
+このフォルダはPythonが入っているPkgとわかるようにするファイル
+pythonでは、パッケージフォルダを作る場合、各フォルダに必ず作る
+
+#wsgi.py
+webサーバとdjangoを繋ぐための設定を入れるファイル
+
+#settings.py
+・BASE_DIR：基本はDjangoプロジェクトのトップ
+・SECRET_KEY：Djangoでプロジェクト毎に自動的に生成される
+・DEBUG：開発ではTrue、本番はFalse（不必要な情報をユーザーに与えない）
+・ALLOWED_HOSTS：VPSやAWS等で利用し、公開予定のIPアドレスを入力する
+・INSTALLED_APPS
+・MIDDLEWARE
+・ROOT_URLCONF：URLを受け取る場所
+・TEMPLATES：HTMLをどこに入れるのかを指定
+    'DIRS': [BASE_DIR,'templates'], #BASE_DIRの中にtemplatesフォルダを作ることを表す
+・WSGI_APPLICATION：WSGIファイルがどこにあるかを指定
+・DATABASES
+・AUTH_PASSWORD_VALIDATORS：バリデーションの管理
+・LANGUAGE_CODE：言語
+・TIME_ZONE
+・USE_I18N
+・USE_L10N
+・USE_TZ
+・STATIC_URL：CSSファイル等を入れていく場所を指定
+
+#urls.py
+#ルーティングを記載するファイル
+・urlpatterns
+
+#views.py （自分で作成）
+・リクエストを受け取り、レスポンスを返す
+
+#admin.py
+管理画面に関して設定するファイル
+
+
+
+###################################
+# Django関連コマンド
+###################################
+
+＃Djangoのインストール
+pip install django
+
+＃Djangoプロジェクトの作成(venvで実行)
+django-admin startproject myweb
+
+#Djangoアプリを作成する（例：hello）
+python manage.py startapp hello
+
+#models.py と　Mygrateの中間に位置する
+#modelを変更した際には、必ず実施する
+python manage.py makemigrations
+
+#モデルをデータベースに反映させる
+python manage.py migrate
+
+#Django簡易サーバ起動
+python manage.py runserver 0.0.0.0:80
+-- http://0.0.0.0:8000/
+
+#djnagoのスーパーユーザ
+python3 manage.py createsuperuser
+
+
